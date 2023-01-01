@@ -23,7 +23,7 @@ export class PlayersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlayerDto: UpdatePlayerDto) {
+  update(@Param('id') id: number, @Body() updatePlayerDto: UpdatePlayerDto) {
     return this.playersService.update(+id, updatePlayerDto);
   }
 

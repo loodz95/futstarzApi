@@ -6,48 +6,72 @@ import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne,OneToMany, Prim
 @Entity()
 export class Player {
     @PrimaryGeneratedColumn()
-    id: number
+    id?: number
 
-    @Column()
+    @Column({
+        nullable:false
+    })
     lastName: string
     
-    @Column()
+    @Column({
+        nullable:false
+    })
     firstName: string
     
-    @Column()
+    @Column({
+        nullable:false
+    })
     age: number
 
-    @Column()
+    @Column({
+        nullable:false
+    })
     country: string
     
-    @Column()
+    @Column({
+        nullable:false
+    })
     position: string
     
-    @Column()
+    @Column({
+        nullable:false
+    })
     rate: number
     
-    @Column()
+    @Column({
+        nullable:false
+    })
     speed: number
     
-    @Column()
-    shots: string
+    @Column({
+        nullable:false
+    })
+    shots: number
     
-    @Column()
-    pass: string
+    @Column({
+        nullable:false
+    })
+    pass: number
     
-    @Column()
-    dribbles: string
+    @Column({
+        nullable:false
+    })
+    dribbles: number
     
-    @Column()
-    defence: string
+    @Column({
+        nullable:false
+    })
+    defence: number
     
-    @Column()
-    power: string
+    @Column({
+        nullable:false
+    })
+    power: number
 
 @OneToMany(()=>Savedplayer, savedplayer=>savedplayer.players)
-savedplayerS: Savedplayer[]
+savedplayers: Savedplayer[]
 
-@ManyToOne(()=>Typeplayer, typeplayer=>typeplayer.player)
+@ManyToOne(()=>Typeplayer, typeplayer=>typeplayer.player, {eager:true})
 typeplayer: Typeplayer
     
 }

@@ -1,15 +1,25 @@
+import { Typeplayer } from './entities/typeplayer.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { CreateTypeplayerDto } from './dto/create-typeplayer.dto';
 import { UpdateTypeplayerDto } from './dto/update-typeplayer.dto';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TypeplayersService {
-  create(createTypeplayerDto: CreateTypeplayerDto) {
-    return 'This action adds a new typeplayer';
+  constructor (
+    @InjectRepository (Typeplayer)
+    private typeplayerRepository:Repository <Typeplayer>
+  ){}
+
+
+  async create(createTypeplayerDto: CreateTypeplayerDto) {
+    const typeCreated = await this.typeplayerRepository.save(createTypeplayerDto) 
+    return typeCreated
   }
 
-  findAll() {
-    return `This action returns all typeplayers`;
+  async findAll() {
+    return await this.typeplayerRepository.find();
   }
 
   findOne(id: number) {

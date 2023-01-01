@@ -1,8 +1,10 @@
 import { Item } from './../../items/entities/item.entity';
 import { Player } from './../../players/entities/player.entity';
 import { Savedplayer } from './../../savedplayers/entities/savedplayer.entity';
-import { Entity,PrimaryGeneratedColumn,Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from "typeorm";
+import { Entity,PrimaryGeneratedColumn,Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable, BeforeInsert } from "typeorm";
 import { v4 as uuid } from 'uuid';
+import * as bcrypt from 'bcrypt';
+
 
 @Entity()
 export class User {
@@ -57,6 +59,10 @@ email:string
 )
 password:string
 
+    
+
+
+
 @Column(
    
     {
@@ -72,4 +78,7 @@ savedPlayer : Savedplayer[]
 
 @OneToMany(()=>Item, item=> item.user)
 item : Item[]
+
+// Hook de typeOrm permettant d'éxécuter du code avant d'enregistrer l'entité dans la base de données
+
 }

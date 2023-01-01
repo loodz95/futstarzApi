@@ -1,3 +1,5 @@
+
+import { PassportModule } from '@nestjs/passport';
 import { Item } from './items/entities/item.entity';
 import { Savedplayer } from './savedplayers/entities/savedplayer.entity';
 import { Player } from './players/entities/player.entity';
@@ -24,6 +26,10 @@ import { TypeplayersModule } from './typeplayers/typeplayers.module';
 import { ItemsModule } from './items/items.module';
 import * as dotenv from 'dotenv';
 import { Typeplayer } from './typeplayers/entities/typeplayer.entity';
+import { AuthModule } from './auth/auth.module';
+
+
+
 
 dotenv.config({ path: '.env' });
 
@@ -42,8 +48,12 @@ dotenv.config({ path: '.env' });
     SavedplayersModule,
     PlayersModule,
     TypeplayersModule,
-    ItemsModule],
-  controllers: [AppController],
-  providers: [AppService],
+    ItemsModule,
+    PassportModule,
+    AuthModule,
+    ],
+    
+  controllers: [AppController,],
+  providers: [AppService,],
 })
 export class AppModule {}

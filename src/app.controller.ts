@@ -1,15 +1,14 @@
-// Les contrôleurs sont chargés de traiter les demandes entrantes et de renvoyer les réponses au client.
-
-
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from './auth/auth.service';
+import { User } from './users/entities/user.entity';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+ 
+  @Post()
+  async login(@Request() req) {
+    console.log(req.user);
+    return req.user;
   }
 }

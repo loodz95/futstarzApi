@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SavedplayersService } from './savedplayers.service';
 import { CreateSavedplayerDto } from './dto/create-savedplayer.dto';
 import { UpdateSavedplayerDto } from './dto/update-savedplayer.dto';
-
+import { User } from 'src/users/entities/user.entity';
+import { Savedplayer } from './entities/savedplayer.entity';
 @Controller('savedplayers')
 export class SavedplayersController {
   constructor(private readonly savedplayersService: SavedplayersService) {}
@@ -13,12 +14,12 @@ export class SavedplayersController {
   }
 
   @Get()
-  findAll() {
+  findAll(){
     return this.savedplayersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string, user: User) {
     return this.savedplayersService.findOne(+id);
   }
 

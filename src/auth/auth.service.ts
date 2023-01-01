@@ -1,0 +1,52 @@
+import { JwtService } from '@nestjs/jwt';
+import { LoginAuthDto } from './dto/login-auth.dto';
+
+import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { CreateAuthDto } from './dto/create-auth.dto';
+import * as bcrypt from 'bcrypt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './../users/entities/user.entity';
+import { Repository } from 'typeorm';
+import { timeStamp } from 'console';
+
+
+
+@Injectable()
+export class AuthService {
+constructor(@InjectRepository(User) private  usersRepository:Repository<User>, private  jwtservice: JwtService){}
+
+  async signin(createAuthDto: CreateAuthDto) {
+    // destructure le dto pour utiliser ses propriétés en tant que variable dans le hashage
+   const {lastName, firstName, nickName, email,password, role} =createAuthDto
+
+   const salt = await bcrypt.genSalt();
+const hashedPassword = await bcrypt.hash(password, salt);
+const user = await this.usersRepository.create({lastName, firstName, nickName, email, password :hashedPassword, role});
+
+try{
+  const createdUser = await this.usersRepository.save(user)
+  return createdUser
+}catch(error){
+  if(error === '23505'){
+  throw new ConflictException('username already exists');
+ } else {
+        throw new InternalServerErrorException();
+      }
+    }
+  
+}
+
+async login(loginDto: LoginAuthDto){
+  const {nickName, password, role} = loginDto;
+  const user = await this.usersRepository.findOneBy({nickName})
+  
+  if (user && (await bcrypt.compare(password, user.password))){
+    const payload = {nickName, role};
+    const accessToken = await this.jwtservice.sign(payload)
+    return {accessToken, payload};
+  }else{
+    throw new UnauthorizedException("Identifiants incorrects")
+  };
+
+}
+}

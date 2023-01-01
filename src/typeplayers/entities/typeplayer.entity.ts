@@ -5,7 +5,7 @@ import { Entity, PrimaryGeneratedColumn,Column, OneToMany, ManyToOne } from "typ
 export class Typeplayer {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
      @Column(
         {nullable: false,

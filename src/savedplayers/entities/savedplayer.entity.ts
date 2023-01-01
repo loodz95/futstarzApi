@@ -12,6 +12,6 @@ export class Savedplayer {
 @ManyToOne(()=> User,(users)=>users.savedPlayer,{eager:true})
 users!: User[];
 
-@ManyToOne(()=> Player,(player)=>player.savedplayerS,{eager:false})
+@ManyToOne(()=> Player,(player)=>player.savedplayers,{eager:true})
 players!: Player[]
 }
