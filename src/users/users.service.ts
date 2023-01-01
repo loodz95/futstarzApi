@@ -1,5 +1,5 @@
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,23 +19,31 @@ export class UsersService {
   async create(createUserDto: CreateUserDto, user): Promise<User> {
      const userCreate =  await this.usersRepository.save(createUserDto)
      console.log("le user cree",userCreate)
+     if(userCreate){
     return userCreate;
+     }else{
+      throw new BadRequestException("Un champ est manquant")
+     }
   }
 
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
 
-
-
-  async findOne(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOneBy({email});
+  async findOne(id: string): Promise<User | undefined> {
+    return this.usersRepository.findOneBy({id});
   }
 
   
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+   const userFound = await this.findOne(id)
+   if(updateUserDto.role){
+   userFound.role = updateUserDto.role
+    return await this.usersRepository.save(userFound)
+   }else{
+   throw new BadRequestException("Role non défini")
   }
+}
 
   async remove(id:string) {
      const result = this.usersRepository.delete({ id });

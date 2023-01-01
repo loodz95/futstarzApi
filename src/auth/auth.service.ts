@@ -21,11 +21,10 @@ constructor(@InjectRepository(User) private  usersRepository:Repository<User>, p
 
    const salt = await bcrypt.genSalt();
 const hashedPassword = await bcrypt.hash(password, salt);
-const user = await this.usersRepository.create({lastName, firstName, nickName, email, password :hashedPassword, role});
+const user = await this.usersRepository.save({lastName, firstName, nickName, email, password :hashedPassword, role});
 
 try{
-  const createdUser = await this.usersRepository.save(user)
-  return createdUser
+  return user
 }catch(error){
   if(error === '23505'){
   throw new ConflictException('username already exists');
