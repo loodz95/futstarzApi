@@ -42,9 +42,10 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(AuthGuard(), AdminGuard)
-  updateUserController(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateUserRole(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
+
 
   @Delete(':id')
   @UseGuards(AuthGuard(), AdminGuard)

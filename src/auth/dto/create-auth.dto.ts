@@ -4,5 +4,5 @@ export class CreateAuthDto {
     nickName: string
     email:string;
     password:string
-    role: string
+    role?: string
 }

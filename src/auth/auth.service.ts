@@ -1,3 +1,4 @@
+import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginAuthDto } from './dto/login-auth.dto';
 
@@ -46,6 +47,32 @@ async login(loginDto: LoginAuthDto){
   }else{
     throw new UnauthorizedException("Identifiants incorrects")
   };
+
+}
+
+
+async update(updateAuthDto: UpdateAuthDto, id){
+const userUpdate = await this.usersRepository.findOneBy(id)
+console.log(userUpdate)
+if(userUpdate.email !==undefined){
+userUpdate.email= updateAuthDto.email;
+}
+if(userUpdate.firstName!==undefined){
+userUpdate.firstName= updateAuthDto.firstName;
+}
+if(userUpdate.lastName!==undefined){
+userUpdate.lastName= updateAuthDto.lastName;
+}
+if(userUpdate.password!==undefined){
+userUpdate.password= updateAuthDto.password;
+}
+if(userUpdate.nickName!==undefined){
+  userUpdate.nickName=updateAuthDto.nickName
+}
+
+
+return await this.usersRepository.save(userUpdate)
+// return "thats ok"
 
 }
 }
