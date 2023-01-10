@@ -22,7 +22,7 @@ export class UsersController {
   
   create(@Body() createUserDto: CreateUserDto, @Request() req) {
     if(createUserDto.firstName && createUserDto.lastName && createUserDto.email && createUserDto.password && createUserDto.nickName){
-    return this.usersService.create(createUserDto, req.user)}
+    return this.usersService.createForUser(createUserDto, req.user)}
     else{
       throw new BadRequestException("Veuillez remplir tous les champs correctement") 
     }

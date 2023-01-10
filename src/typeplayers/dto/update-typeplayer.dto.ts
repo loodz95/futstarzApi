@@ -1,4 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateTypeplayerDto } from './create-typeplayer.dto';
 
-export class UpdateTypeplayerDto extends PartialType(CreateTypeplayerDto) {}
+export class UpdateTypeplayerDto extends PartialType(CreateTypeplayerDto) {
+    nom_type: string
+}

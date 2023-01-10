@@ -1,6 +1,6 @@
 import { Typeplayer } from './entities/typeplayer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTypeplayerDto } from './dto/create-typeplayer.dto';
 import { UpdateTypeplayerDto } from './dto/update-typeplayer.dto';
 import { Repository } from 'typeorm';
@@ -22,15 +22,24 @@ export class TypeplayersService {
     return await this.typeplayerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} typeplayer`;
+  async findOne(id: number) {
+    const userFound  =  await this.typeplayerRepository.findOneBy({id})
+    return userFound
   }
 
-  update(id: number, updateTypeplayerDto: UpdateTypeplayerDto) {
-    return `This action updates a #${id} typeplayer`;
+  async update(id: number, updateTypeplayerDto: UpdateTypeplayerDto) {
+    const typeFound =  await this.findOne(id)
+    if(updateTypeplayerDto.nom_type){
+      typeFound.nom_type = updateTypeplayerDto.nom_type
+    }
+    return typeFound;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} typeplayer`;
-  }
+  async remove(id: number) {
+   const result = await this.typeplayerRepository.delete({id});
+  if(result.affected===0){
+     throw new NotFoundException("cet utilisateur n'existe pas")
+     }else{
+    return `Vous avez supprimé l'utilisateur avec l'id ${id}`}
+}
 }
