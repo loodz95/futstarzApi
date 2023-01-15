@@ -13,14 +13,6 @@ export class User {
 )
 id?: string= uuid();
 
-@Column(
-    {
-        nullable: false,
-        type: 'varchar',
-        length: 100
-    }
-)
-lastName:string
 
 @Column(
         {
@@ -29,16 +21,7 @@ lastName:string
         length: 100
     }
 )
-firstName:string
-
-@Column(
-        {
-        nullable: false,
-        type: 'varchar',
-        length: 100
-    }
-)
-nickName:string
+userName:string
 
 @Column(
        {
