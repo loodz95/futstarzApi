@@ -4,6 +4,7 @@ import { CreateSavedplayerDto } from './dto/create-savedplayer.dto';
 import { UpdateSavedplayerDto } from './dto/update-savedplayer.dto';
 import { User } from 'src/users/entities/user.entity';
 import { Savedplayer } from './entities/savedplayer.entity';
+import { Request } from '@nestjs/common';
 @Controller('savedplayers')
 export class SavedplayersController {
   constructor(private readonly savedplayersService: SavedplayersService) {}
@@ -19,8 +20,8 @@ export class SavedplayersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, user: User) {
-    return this.savedplayersService.findOne(+id);
+  findOne(@Param('id') id: string, @Request() req) {
+    return this.savedplayersService.findOne(+id, req.user);
   }
 
   @Patch(':id')

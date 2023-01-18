@@ -9,7 +9,6 @@ import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -24,8 +23,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any): Promise<User> {
     console.log('validate');
-    const { nickName, role } = payload;
-    const user: User = await this.usersRepository.findOneBy({ nickName, role });
+    const { userName, role } = payload;
+    const user: User = await this.usersRepository.findOneBy({ userName, role });
 
     if (!user) throw new UnauthorizedException();
     return user;

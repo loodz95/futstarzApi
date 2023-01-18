@@ -18,11 +18,11 @@ constructor(@InjectRepository(User) private  usersRepository:Repository<User>, p
 
   async signin(createAuthDto: CreateAuthDto) {
     // destructure le dto pour utiliser ses propriétés en tant que variable dans le hashage
-   const {lastName, firstName, nickName, email,password, role} =createAuthDto
+   const {userName, email,password, role} =createAuthDto
 
    const salt = await bcrypt.genSalt();
 const hashedPassword = await bcrypt.hash(password, salt);
-const user = await this.usersRepository.save({lastName, firstName, nickName, email, password :hashedPassword, role});
+const user = await this.usersRepository.save({userName, email, password :hashedPassword, role});
 
 try{
   return user
@@ -37,11 +37,11 @@ try{
 }
 
 async login(loginDto: LoginAuthDto){
-  const {nickName, password, role} = loginDto;
-  const user = await this.usersRepository.findOneBy({nickName})
+  const {userName, password, role} = loginDto;
+  const user = await this.usersRepository.findOneBy({userName})
   
   if (user && (await bcrypt.compare(password, user.password))){
-    const payload = {nickName, role};
+    const payload = {userName, role};
     const accessToken = await this.jwtservice.sign(payload)
     return {accessToken, payload};
   }else{
@@ -57,18 +57,16 @@ console.log(userUpdate)
 if(userUpdate.email !==undefined){
 userUpdate.email= updateAuthDto.email;
 }
-if(userUpdate.firstName!==undefined){
-userUpdate.firstName= updateAuthDto.firstName;
+if(userUpdate.userName!==undefined){
+userUpdate.userName= updateAuthDto.userName;
 }
-if(userUpdate.lastName!==undefined){
-userUpdate.lastName= updateAuthDto.lastName;
-}
+
+
 if(userUpdate.password!==undefined){
 userUpdate.password= updateAuthDto.password;
 }
-if(userUpdate.nickName!==undefined){
-  userUpdate.nickName=updateAuthDto.nickName
-}
+
+
 
 
 return await this.usersRepository.save(userUpdate)

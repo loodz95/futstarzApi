@@ -18,7 +18,8 @@ id?: string= uuid();
         {
         nullable: false,
         type: 'varchar',
-        length: 100
+        length: 100,
+        unique: true
     }
 )
 userName:string
@@ -62,6 +63,6 @@ savedPlayer : Savedplayer[]
 @OneToMany(()=>Item, item=> item.user)
 item : Item[]
 
-// Hook de typeOrm permettant d'éxécuter du code avant d'enregistrer l'entité dans la base de données
+
 
 }

@@ -23,7 +23,7 @@ async findAll() {
  return await this.savedplayerRepository.find()   
   }
 
-  findOne(id: number) {
+  findOne(id: number, user : User) {
     return `This action returns a #${id} savedplayer`;
   }
 

@@ -21,8 +21,8 @@ export class UsersController {
   // decorateurs personnalises. l'user authentifié va etre verifie dans la base de donnes.
   
   create(@Body() createUserDto: CreateUserDto, @Request() req) {
-    if(createUserDto.firstName && createUserDto.lastName && createUserDto.email && createUserDto.password && createUserDto.nickName){
-    return this.usersService.createForUser(createUserDto, req.user)}
+    if(createUserDto.userName &&  createUserDto.email && createUserDto.password){
+    return this.usersService.createForUser(createUserDto,)}
     else{
       throw new BadRequestException("Veuillez remplir tous les champs correctement") 
     }

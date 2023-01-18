@@ -1,5 +1,5 @@
 export class LoginAuthDto {
-  nickName: string;
+  userName: string;
   password: string;
   role?: string
 }
