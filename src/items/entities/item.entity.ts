@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn,Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column, ManyToOne, CreateDateColumn } from "typeorm";
 import { User } from "src/users/entities/user.entity";
 
 @Entity()
@@ -19,6 +19,12 @@ export class Item {
         }
         )
 contain: string
+
+    @CreateDateColumn(
+        {type: 'timestamptz'
+        }
+        )
+date!: Date
 
 @ManyToOne(()=>User, user=>user.item)
 user: User[]

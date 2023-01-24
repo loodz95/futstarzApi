@@ -1,1 +1,5 @@
-export class CreateItemDto {}
+export class CreateItemDto {
+    title: string;
+    contain: string;
+   
+}
