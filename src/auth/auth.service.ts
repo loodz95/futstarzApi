@@ -37,11 +37,11 @@ try{
 }
 
 async login(loginDto: LoginAuthDto){
-  const {userName, password, role} = loginDto;
-  const user = await this.usersRepository.findOneBy({userName})
+ 
+  const user = await this.usersRepository.findOneBy({userName : loginDto.userName})
   
-  if (user && (await bcrypt.compare(password, user.password))){
-    const payload = {userName, role};
+  if (user && (await bcrypt.compare(loginDto.password, user.password))){
+    const payload = {userName :loginDto.userName,  role : user.role};
     const accessToken = await this.jwtservice.sign(payload)
     return {accessToken, payload};
   }else{

@@ -8,16 +8,19 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import * as dotenv from 'dotenv';
 
-
 dotenv.config({ path: '.env' });
 
-
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), PassportModule.register({defaultStrategy:'jwt'}),
-JwtModule.register({signOptions: { expiresIn: '1h' },
-      secret: process.env.SECRET_KEY,})],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      signOptions: { expiresIn: '1h' },
+      secret: process.env.SECRET_KEY,
+    }),
+  ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  exports:[JwtStrategy,PassportModule]
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

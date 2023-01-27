@@ -1,5 +1,5 @@
 import { Item } from './entities/item.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -28,7 +28,11 @@ export class ItemsService {
     return `This action updates a #${id} item`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const result =  await this.itemRepository.delete(id)
+    if(result.affected===0){
+      throw new NotFoundException("Pas d'utilisateurs avec cet id")
+    }
     return `This action removes a #${id} item`;
   }
 }

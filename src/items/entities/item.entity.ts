@@ -21,7 +21,7 @@ export class Item {
 contain: string
 
     @CreateDateColumn(
-        {type: 'timestamptz'
+        {type:'timestamptz'
         }
         )
 date!: Date
