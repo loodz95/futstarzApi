@@ -14,9 +14,11 @@ export class SavedplayersService {
     private savedplayerRepository:Repository<Savedplayer>
   ){}
   
-  async create(createSavedplayerDto: CreateSavedplayerDto) {
-   const savedplayer = await this.savedplayerRepository.save(createSavedplayerDto)
-   return await savedplayer
+  async create(createSavedplayerDto: CreateSavedplayerDto, user:User) {
+ const users = {id:user.id}
+const savedPlayer = {...createSavedplayerDto, users}
+return await this.savedplayerRepository.save(savedPlayer)
+
   }
 
 async findAll() {

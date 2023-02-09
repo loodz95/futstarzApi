@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { SavedplayersService } from './savedplayers.service';
 import { CreateSavedplayerDto } from './dto/create-savedplayer.dto';
 import { UpdateSavedplayerDto } from './dto/update-savedplayer.dto';
@@ -9,9 +10,13 @@ import { Request } from '@nestjs/common';
 export class SavedplayersController {
   constructor(private readonly savedplayersService: SavedplayersService) {}
 
+
+
   @Post()
-  create(@Body() createSavedplayerDto: CreateSavedplayerDto) {
-    return this.savedplayersService.create(createSavedplayerDto);
+   @UseGuards(AuthGuard())
+  create(@Body() createSavedplayerDto: CreateSavedplayerDto, @Request() req) {
+    console.log(req.user)
+    return this.savedplayersService.create(createSavedplayerDto, req.user);
   }
 
   @Get()
