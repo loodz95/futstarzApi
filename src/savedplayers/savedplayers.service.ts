@@ -42,7 +42,7 @@ console.log('bdd a declarer', alreadySaved);
 if(alreadySaved === null){
   return await this.savedplayerRepository.save(savedPlayer)
 }else {
-  return  new BadRequestException("Le joueur a déja été sauvegardé")
+  throw  new BadRequestException("Le joueur a déja été sauvegardé")
   
 }
 }
