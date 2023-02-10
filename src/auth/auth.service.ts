@@ -18,7 +18,7 @@ constructor(@InjectRepository(User) private  usersRepository:Repository<User>, p
 
   async signin(createAuthDto: CreateAuthDto) {
     // destructure le dto pour utiliser ses propriétés en tant que variable dans le hashage
-   const {userName, email,password, role} =createAuthDto
+   const {userName, email,password, role } =createAuthDto
 
    const salt = await bcrypt.genSalt();
 const hashedPassword = await bcrypt.hash(password, salt);
@@ -41,7 +41,7 @@ async login(loginDto: LoginAuthDto){
   const user = await this.usersRepository.findOneBy({userName : loginDto.userName})
   
   if (user && (await bcrypt.compare(loginDto.password, user.password))){
-    const payload = {userName :loginDto.userName,  role : user.role};
+    const payload = {userName :loginDto.userName,  role : user.role, id: user.id};
     const accessToken = await this.jwtservice.sign(payload)
     return {accessToken, payload};
   }else{

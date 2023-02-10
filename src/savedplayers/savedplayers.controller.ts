@@ -1,5 +1,5 @@
 import { AuthGuard } from '@nestjs/passport';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { SavedplayersService } from './savedplayers.service';
 import { CreateSavedplayerDto } from './dto/create-savedplayer.dto';
 import { UpdateSavedplayerDto } from './dto/update-savedplayer.dto';
@@ -20,8 +20,9 @@ export class SavedplayersController {
   }
 
   @Get()
-  findAll(){
-    return this.savedplayersService.findAll();
+     @UseGuards(AuthGuard())
+  findAll(@Request() req){
+    return this.savedplayersService.findAll(req.user);
   }
 
   @Get(':id')
