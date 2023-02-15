@@ -57,7 +57,7 @@ password:string
 )
 role?:string
 
-@OneToMany(()=>Savedplayer, savedplayer=> savedplayer.users)
+@OneToMany(()=>Savedplayer, savedplayer=> savedplayer.users, {eager:true})
 savedPlayer : Savedplayer[]
 
 @OneToMany(()=>Item, item=> item.user)

@@ -29,10 +29,12 @@ export class UsersController {
   }
 
   @Get()
-  @UseGuards(AuthGuard(), AdminGuard)
+  @UseGuards(AuthGuard())
   findAll() {
     return this.usersService.findAll();
   }
+  
+
 
   @Get(':id')
   @UseGuards(AuthGuard())

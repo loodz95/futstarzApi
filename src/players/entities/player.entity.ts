@@ -68,7 +68,7 @@ export class Player {
     })
     power: number
 
-@OneToMany(()=>Savedplayer, savedplayer=>savedplayer.players)
+@OneToMany(()=>Savedplayer, savedplayer=>savedplayer.players, {eager:true})
 savedplayers: Savedplayer[]
 
 @ManyToOne(()=>Typeplayer, typeplayer=>typeplayer.player, {eager:true})

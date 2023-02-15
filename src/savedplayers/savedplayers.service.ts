@@ -16,6 +16,7 @@ export class SavedplayersService {
 
 
   async create(createSavedplayerDto: CreateSavedplayerDto, user: User) {
+    console.log("players du dto",createSavedplayerDto.players)
     let playerId;
     let alreadySaved;
 
@@ -23,20 +24,22 @@ export class SavedplayersService {
     try {
        for (const property in createSavedplayerDto) {
   console.log('valeur propriete du tableau', `${createSavedplayerDto[property]}`);
+  console.log('valeur propriete du tableau avec dto pointer', createSavedplayerDto.players);
   playerId = createSavedplayerDto[property];
   alreadySaved = await this.savedplayerRepository.findOneBy({
   player_id: playerId,
   user_id: user.id,
 });
-console.log('element de la base de donnees', alreadySaved);
+console.log('element de la base de donnees',);
 
 console.log("It's ok");
 
 }} catch (error) {
  console.log("Something wrent wrong")
 }
-const users = { id: user.id };
-const savedPlayer = { ...createSavedplayerDto, users };
+const users  = { id: user.id };
+const savedPlayer = { ...createSavedplayerDto, users, };
+console.log('players du dto', createSavedplayerDto);
 
 console.log('bdd a declarer', alreadySaved);
 if(alreadySaved === null){
@@ -47,22 +50,15 @@ if(alreadySaved === null){
 }
 }
 
-  
-
-  
-
-
-
-
-
-  
-  
 
   async findAll(user:User) {
     console.log(user)
-    const query = this.savedplayerRepository.createQueryBuilder();
-query.where({ users: user });
-return query.getMany();
+    const players = this.savedplayerRepository.createQueryBuilder("savedplayer")
+.leftJoinAndSelect("savedplayer.players","players")
+.where({user_id:user.id})
+.getMany()
+
+return players;
   }
 
   findOne(id: number, user: User) {

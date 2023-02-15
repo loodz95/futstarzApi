@@ -16,7 +16,7 @@ export class ItemsService {
     return itemCreate;
   }
 
-  async findAll() {
+    async findAll() {
     return await this.itemRepository.find();
   }
 
@@ -26,7 +26,7 @@ export class ItemsService {
 
   update(id: number, updateItemDto: UpdateItemDto) {
     return `This action updates a #${id} item`;
-  }
+  } 
 
   async remove(id: number) {
     const result =  await this.itemRepository.delete(id)

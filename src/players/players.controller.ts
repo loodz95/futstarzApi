@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from '@nestjs/common';
+
 
 @Controller('players')
 export class PlayersController {
@@ -16,6 +19,8 @@ export class PlayersController {
   findAll() {
     return this.playersService.findAll();
   }
+
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
