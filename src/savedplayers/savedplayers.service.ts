@@ -69,7 +69,18 @@ return players;
     return `This action updates a #${id} savedplayer`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} savedplayer`;
-  }
+  async remove(id: number, user:User) {
+       const playerToDelete = await this.savedplayerRepository.createQueryBuilder()
+       .where({ player_id: id }).andWhere({ users: user })
+       .getOne()
+    
+    if (!playerToDelete) {
+      throw new NotFoundException(`Pas de  joueur avec l'id: ${id}`);
+    } else {
+      await this.savedplayerRepository.delete(playerToDelete);
+
+      return `le player a bien été effacé`
+    }
+  };
+  
 }

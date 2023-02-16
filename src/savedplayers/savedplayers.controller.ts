@@ -36,7 +36,8 @@ export class SavedplayersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.savedplayersService.remove(+id);
+  @UseGuards(AuthGuard())
+  remove(@Param('id') id: string, @Request() req) {
+    return this.savedplayersService.remove(+id, req.user);
   }
 }
