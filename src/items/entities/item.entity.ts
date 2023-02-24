@@ -4,7 +4,7 @@ import { User } from "src/users/entities/user.entity";
 @Entity()
 export class Item {
     @PrimaryGeneratedColumn()
-    id:string
+    id:number
 
     @Column(
         {nullable:false,

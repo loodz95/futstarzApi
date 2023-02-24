@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { createQueryBuilder, Repository } from 'typeorm';
+import { createQueryBuilder, Not, Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -46,7 +46,13 @@ export class PlayersService {
    return await this.playersRepository.save(playerUpdate)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} player`;
+  async remove(id: number) {
+   const playerFound =  await this.findOne(id);
+   if(!playerFound){
+    throw new NotFoundException("pas de player trouvé avec cet id")
+   }else{
+   await this.playersRepository.delete(playerFound)
+   return "player bien effacé"
+   }
   }
 }

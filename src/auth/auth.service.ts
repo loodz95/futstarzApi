@@ -41,7 +41,7 @@ async login(loginDto: LoginAuthDto){
   const user = await this.usersRepository.findOneBy({userName : loginDto.userName})
   
   if (user && (await bcrypt.compare(loginDto.password, user.password))){
-    const payload = {userName :loginDto.userName,  role : user.role, id: user.id};
+    const payload = {userName :loginDto.userName,  role : user.role, id: user.id, email:user.email};
     const accessToken = await this.jwtservice.sign(payload)
     return {accessToken, payload};
   }else{
@@ -52,19 +52,29 @@ async login(loginDto: LoginAuthDto){
 
 
 async update(updateAuthDto: UpdateAuthDto, id){
-const userUpdate = await this.usersRepository.findOneBy(id)
+const userUpdate = await this.usersRepository.findOneBy({id})
 console.log(userUpdate)
 if(userUpdate.email !==undefined){
 userUpdate.email= updateAuthDto.email;
 }
-if(userUpdate.userName!==undefined){
-userUpdate.userName= updateAuthDto.userName;
-}
 
 
-if(userUpdate.password!==undefined){
-userUpdate.password= updateAuthDto.password;
+
+if (updateAuthDto.password !== undefined) {
+  console.log('updateUserDto.password: ', updateAuthDto.password);
+  const saltOrRounds = 10;
+  const password = updateAuthDto.password;
+  console.log('password: ', password);
+
+  const hash = await bcrypt.hash(password, saltOrRounds);
+  console.log('hash: ', hash);
+  userUpdate.password = hash;
+  console.log('user create password: ', userUpdate.password);
+  //updateUserDto.password = userUpdate.password;
+  // userUpdate.password = updateUserDto.password;
+  console.log('user dto password: ', updateAuthDto.password);
 }
+
 
 
 
@@ -73,4 +83,5 @@ return await this.usersRepository.save(userUpdate)
 // return "thats ok"
 
 }
+
 }

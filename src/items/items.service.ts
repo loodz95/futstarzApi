@@ -20,8 +20,12 @@ export class ItemsService {
     return await this.itemRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+async findOne(id: number) {
+   const itemFound= await this.itemRepository.findOneBy({id});
+   if (!itemFound){
+    throw new NotFoundException(`Pas d'article avec l'id #${id}`)
+   }
+   return itemFound
   }
 
   update(id: number, updateItemDto: UpdateItemDto) {
