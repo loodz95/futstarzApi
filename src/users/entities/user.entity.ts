@@ -4,6 +4,7 @@ import { Savedplayer } from './../../savedplayers/entities/savedplayer.entity';
 import { Entity,PrimaryGeneratedColumn,Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable, BeforeInsert } from "typeorm";
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { IsNotEmpty } from 'class-validator';
 
 
 @Entity()

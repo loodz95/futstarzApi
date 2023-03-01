@@ -67,6 +67,10 @@ export class Player {
         nullable:false
     })
     power: number
+    @Column({
+        nullable:true
+    })
+    picture: string
 
 @OneToMany(()=>Savedplayer, savedplayer=>savedplayer.players)
 savedplayers: Savedplayer[]

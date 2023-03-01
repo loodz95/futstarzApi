@@ -27,6 +27,9 @@ import { ItemsModule } from './items/items.module';
 import * as dotenv from 'dotenv';
 import { Typeplayer } from './typeplayers/entities/typeplayer.entity';
 import { AuthModule } from './auth/auth.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { ConfigModule } from '@nestjs/config';
 
 
 

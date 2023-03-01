@@ -12,5 +12,6 @@ export class CreatePlayerDto {
     dribbles: number;
     defence: number;
     power: number
+    picture:string
     typeplayer: Typeplayer
 }
